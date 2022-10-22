@@ -38,13 +38,13 @@ jobs:
           NODE_ENV: production
 
       - name: get version 
-        uses: ./
+        uses: bbonkr/get-version-action@v1.0.5
         id: get_version
         with:
          project: package.json
 
       - name: check tag exists
-        uses: bbonkr/git-tag-check-action@v1.0.10
+        uses: bbonkr/git-tag-check-action@v1.0.11
         id: check_tag
         with:
           tag: "v${{ steps.get_version.outputs.version }}"
