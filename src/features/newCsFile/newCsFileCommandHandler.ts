@@ -1,9 +1,9 @@
 import * as vscode from "vscode";
 import * as path from "path";
-
 import findProjectFile from "../../lib/findProjectFile";
 import generateNamespace from "../../lib/generateNamespace";
 import createCsFile from "../../lib/createCsFile";
+import csharpKeywords from "./csharpKeywords";
 
 const newCsFileCommandHandler = async (name: string = "HelloWorld") => {
   if (
@@ -55,44 +55,100 @@ const newCsFileCommandHandler = async (name: string = "HelloWorld") => {
   const nameInputBox = vscode.window.createInputBox();
   nameInputBox.title = "Class name";
   nameInputBox.placeholder = "Class name";
-  nameInputBox.onDidAccept(() => {
-    const className = nameInputBox.value;
+  nameInputBox.onDidChangeValue((value: string) => {
+    let validationMessage:
+      | string
+      | vscode.InputBoxValidationMessage
+      | undefined;
 
-    if (!className) {
-      vscode.window.showErrorMessage("Class name is required");
-      return;
+    const classNameRegexp = /^[A-Za-z][A-Za-z0-9_]*$/g;
+
+    if (!value?.trim() ?? "") {
+      validationMessage = {
+        message: "Class name is required",
+        severity: vscode.InputBoxValidationSeverity.Error,
+      };
+    } else if (csharpKeywords.includes(value)) {
+      validationMessage = {
+        message:
+          "Class file names must not be reserved words. [C# keywords](https://en.wikibooks.org/wiki/C_Sharp_Programming/Keywords)",
+        severity: vscode.InputBoxValidationSeverity.Error,
+      };
+    } else if (/^[a-z]*$/g.test(value)) {
+      validationMessage = {
+        message:
+          "Class file name might be better start with Capital character.",
+        severity: vscode.InputBoxValidationSeverity.Info,
+      };
+    } else if (classNameRegexp.test(value)) {
+      validationMessage = undefined;
+    } else {
+      validationMessage = {
+        message:
+          "Class file name should be matched with /^[A-Za-z][A-Za-z0-9_]*$/g",
+        severity: vscode.InputBoxValidationSeverity.Error,
+      };
     }
 
-    vscode.window.showInformationMessage(`file name: ${className}`);
-    // Do create file with namespace
-    const filePath = vscode.Uri.parse(
-      path.join(selectedDirectory.path, `${className}.cs`)
-    );
+    nameInputBox.validationMessage = validationMessage;
+  });
+  nameInputBox.onDidAccept(() => {
+    let validationMessage = "";
 
-    createCsFile(filePath.path, namespace, className);
+    if (nameInputBox.validationMessage) {
+      const inputBoxValidationMessage =
+        nameInputBox.validationMessage as vscode.InputBoxValidationMessage;
 
-    vscode.window.showInformationMessage(`File path: ${filePath}`);
+      if (
+        inputBoxValidationMessage &&
+        inputBoxValidationMessage.severity ===
+          vscode.InputBoxValidationSeverity.Error
+      ) {
+        validationMessage = inputBoxValidationMessage.message;
+      }
 
-    vscode.workspace
-      .openTextDocument(vscode.Uri.file(filePath.fsPath))
-      .then((document) => {
-        vscode.window.showTextDocument(document);
+      if (typeof nameInputBox.validationMessage === "string") {
+        validationMessage = nameInputBox.validationMessage;
+      }
+    }
 
-        const edit = new vscode.WorkspaceEdit();
+    if (validationMessage) {
+      vscode.window.showErrorMessage(validationMessage);
+    } else {
+      const className = nameInputBox.value;
 
-        return vscode.workspace.applyEdit(edit).then((success) => {
-          if (success) {
-            vscode.window.showInformationMessage(
-              `new cs file created at ${filePath.path}`
-            );
-          } else {
-            vscode.window.showErrorMessage(`Fail to create new cs file`);
-          }
+      if (!className) {
+        vscode.window.showErrorMessage("Class name is required");
+        return;
+      }
+
+      const filePath = vscode.Uri.parse(
+        path.join(selectedDirectory.path, `${className}.cs`)
+      );
+
+      createCsFile(filePath.path, namespace, className);
+
+      vscode.workspace
+        .openTextDocument(vscode.Uri.file(filePath.fsPath))
+        .then((document) => {
+          vscode.window.showTextDocument(document);
+
+          const edit = new vscode.WorkspaceEdit();
+
+          return vscode.workspace.applyEdit(edit).then((success) => {
+            if (success) {
+              vscode.window.showInformationMessage(
+                `new cs file [${className}] created at ${filePath.path}`
+              );
+            } else {
+              vscode.window.showErrorMessage(`Fail to create new cs file`);
+            }
+          });
         });
-      });
 
-    nameInputBox.hide();
-    nameInputBox.dispose();
+      nameInputBox.hide();
+      nameInputBox.dispose();
+    }
   });
   nameInputBox.show();
 };
