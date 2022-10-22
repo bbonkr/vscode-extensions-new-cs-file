@@ -48,7 +48,7 @@
     "pretest": "npm run compile-tests && npm run compile && npm run lint",
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
-    "test:lib": "mocha src/**/*.spec.ts -r ts-node/register"
+    "test:lib": "mocha -r ts-node/register src/**/*.spec.ts"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",

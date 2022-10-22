@@ -1,10 +1,6 @@
-import * as fs from "fs";
+import * as fs from 'fs';
 
-function createCsFile(
-  filePath: string,
-  namespace: string,
-  className: string
-): boolean {
+function createCsFile(filePath: string, namespace: string, className: string): boolean {
   try {
     fs.writeFileSync(
       filePath,
@@ -16,7 +12,7 @@ function createCsFile(
 	}
 }
 `,
-      { encoding: "utf-8" }
+      { encoding: 'utf-8' },
     );
 
     return true;

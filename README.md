@@ -14,11 +14,7 @@ Create cs file with namespace defined into selected directory.
 
 ## Requirements
 
-None
-
-## Known Issues
-
-Calling out known issues can help limit users opening duplicate issues against your extension.
+Directory and file name in your workspace should not contain non-alphanumeric characters.
 
 ## Release Notes
 
