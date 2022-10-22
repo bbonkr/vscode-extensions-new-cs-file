@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-  build: # make sure build/ci work properly
+  publish: 
     runs-on: ubuntu-latest 
     steps:
       - name: Checkout
@@ -36,6 +36,7 @@ jobs:
       
       - name: Publish
         if: success()
-        run: npm run deploy
+        run: |
+          npm run deploy
         env:
           VSCE_PAT: ${{ secrets.VSCE_PAT }}
