@@ -2,11 +2,13 @@ import * as fs from 'fs';
 
 function createCsFile(filePath: string, namespace: string, className: string): boolean {
   try {
+    const normalizedFilePath = filePath.normalize();
+
     fs.writeFileSync(
-      filePath,
-      `namespace ${namespace} 
+      normalizedFilePath,
+      `namespace ${namespace.normalize()} 
 {
-	public class ${className}
+	public class ${className.normalize()}
 	{
 		
 	}
