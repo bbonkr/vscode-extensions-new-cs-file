@@ -23,10 +23,11 @@ jobs:
       - name: lint 
         run: |
           npm run lint --if-present
-      
-      - name: test
-        run: |
-          npm run test --if-present
+
+      # It Needs X server or $DISPLAY
+      # - name: test
+      #   run: |
+      #     npm run test --if-present
 
       - name: test lib
         run: |
