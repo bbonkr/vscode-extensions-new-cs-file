@@ -9,8 +9,6 @@ import * as fs from "fs";
  */
 function findProjectFile(current: string): string {
   // vscode.window.showInformationMessage(`current: ${current}`);
-  let foundCsprojFile = false;
-  let foundSlnFile = false;
 
   const files = fs.readdirSync(current);
   const targetFiles = files
