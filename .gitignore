@@ -409,3 +409,5 @@ node_modules
 .[Dd][Ss]_[Ss]tore
 
 dist/
+out/
+.vscode-test/
