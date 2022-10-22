@@ -1,4 +1,3 @@
-import * as vscode from "vscode";
 import * as path from "path";
 import * as fs from "fs";
 
@@ -7,7 +6,7 @@ import * as fs from "fs";
  * @param current
  * @returns
  */
-function findProjectFile(current: string): string {
+function findProjectFile(current: string, workspacePath: string): string {
   // vscode.window.showInformationMessage(`current: ${current}`);
 
   const files = fs.readdirSync(current);
@@ -24,10 +23,14 @@ function findProjectFile(current: string): string {
       return path.join(current, file);
     }
   }
-
+  if (current === workspacePath) {
+    throw new Error(
+      "Could not find csproj file or sln file in your workspace. Navigate only inside the workspace."
+    );
+  }
   const parent = path.resolve(current, "..");
 
-  return findProjectFile(parent);
+  return findProjectFile(parent, workspacePath);
 }
 
 export default findProjectFile;
