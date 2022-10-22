@@ -2,7 +2,7 @@
   "name": "kr-bbon-vscode-plugins-newcsfile",
   "displayName": "NewCsFile",
   "description": "New cs file for dotnet",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "license": "MIT",
   "publisher": "bbonkr",
   "author": {
