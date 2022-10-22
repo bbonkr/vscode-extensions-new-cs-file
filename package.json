@@ -1,6 +1,6 @@
 {
   "name": "kr-bbon-vscode-plugins-newcsfile",
-  "displayName": "NewCsFile",
+  "displayName": "New CS file",
   "description": "New cs file for dotnet",
   "version": "0.1.1",
   "license": "MIT",
@@ -8,6 +8,7 @@
   "author": {
     "name": "Pon Cheol Ku (구본철)"
   },
+  "icon": "assets/icon.png",
   "repository": {
     "type": "git",
     "url": "https://github.com/bbonkr/vscode-extensions-new-cs-file"
