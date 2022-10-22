@@ -3,6 +3,7 @@
   "displayName": "NewCsFile",
   "description": "New cs file for dotnet",
   "version": "0.0.1",
+  "license": "MIT",
   "publisher": "bbonkr",
   "author": {
     "name": "Pon Cheol Ku (구본철)"
