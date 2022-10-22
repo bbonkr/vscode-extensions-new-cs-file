@@ -2,66 +2,9 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as vscode from "vscode";
 import * as path from "path";
-import * as fs from "fs";
-
-function findProjectFile(current: string): string {
-  vscode.window.showInformationMessage(`current: ${current}`);
-  const files = fs.readdirSync(current);
-  for (const file of files) {
-    if (file.endsWith(".sln")) {
-      throw new Error("Could not find .csproj file");
-    }
-
-    if (file.endsWith(".csproj")) {
-      return path.join(current, file);
-    }
-  }
-
-  const parent = path.resolve(current, "..");
-
-  return findProjectFile(parent);
-}
-
-function generateNamespace(projFilePath: string, currentPath: string): string {
-  const baseUri = path.dirname(projFilePath);
-  const projFileExt = path.extname(projFilePath);
-  const projFileName = path.basename(projFilePath, projFileExt);
-
-  let currentRelativeUri = path.relative(baseUri, currentPath);
-  let namespace = currentRelativeUri.replace(path.sep, ".");
-
-  if (namespace) {
-    namespace = `.${namespace}`;
-  }
-
-  return `${projFileName}${namespace}`;
-}
-
-function createFile(
-  filePath: string,
-  namespace: string,
-  className: string
-): boolean {
-  try {
-    fs.writeFileSync(
-      filePath,
-      `namespace ${namespace} 
-{
-	public class ${className}
-	{
-		
-	}
-}
-`,
-      { encoding: "utf-8" }
-    );
-
-    return true;
-  } catch (error) {
-    console.error(error);
-    return false;
-  }
-}
+import findProjectFile from "./lib/findProjectFile";
+import generateNamespace from "./lib/generateNamespace";
+import createCsFile from "./lib/createCsFile";
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -122,13 +65,13 @@ export function activate(context: vscode.ExtensionContext) {
       return;
     }
 
-    vscode.window.showInformationMessage(`${selectedDirectory.path}`);
+    // vscode.window.showInformationMessage(`${selectedDirectory.path}`);
 
     const projFile = findProjectFile(selectedDirectory.path);
 
     const namespace = generateNamespace(projFile, selectedDirectory.path);
 
-    vscode.window.showInformationMessage(`namespace: ${namespace}`);
+    // vscode.window.showInformationMessage(`namespace: ${namespace}`);
 
     const nameInputBox = vscode.window.createInputBox();
     nameInputBox.title = "Class name";
@@ -147,7 +90,7 @@ export function activate(context: vscode.ExtensionContext) {
         path.join(selectedDirectory.path, `${className}.cs`)
       );
 
-      createFile(filePath.fsPath, namespace, className);
+      createCsFile(filePath.fsPath, namespace, className);
 
       vscode.window.showInformationMessage(`File path: ${filePath}`);
 
