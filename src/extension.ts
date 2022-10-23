@@ -1,7 +1,5 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
-import * as vscode from "vscode";
-import newCsFile from "./features/newCsFile";
+import * as vscode from 'vscode';
+import newCsFile from './features/newCsFile';
 
 // This method is called when your extension is activated
 // Your extension is activated the very first time the command is executed
@@ -10,9 +8,7 @@ export function activate(context: vscode.ExtensionContext) {
   // This line of code will only be executed once when your extension is activated
   console.log('"kr-bbon-vscode-plugins-newcsfile" is now active!');
 
-  context.subscriptions.push(
-    vscode.commands.registerCommand(newCsFile.command, newCsFile.handler)
-  );
+  context.subscriptions.push(vscode.commands.registerCommand(newCsFile.command, newCsFile.handler));
 }
 
 // This method is called when your extension is deactivated

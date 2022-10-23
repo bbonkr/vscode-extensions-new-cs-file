@@ -1,0 +1,3 @@
+const showNewCsFileContextMenuCommand = 'krbbonvscodeextension.showNewCsFileContextMenu';
+
+export default showNewCsFileContextMenuCommand;

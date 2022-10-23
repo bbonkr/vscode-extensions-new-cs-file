@@ -11,7 +11,7 @@
   "icon": "assets/icon.png",
   "repository": {
     "type": "git",
-    "url": "https://github.com/bbonkr/vscode-extensions-new-cs-file"
+    "url": "https://github.com/bbonkr/vscode-extensions-new-cs-file.git"
   },
   "engines": {
     "vscode": "^1.72.0"
@@ -22,6 +22,10 @@
   "keywords": [
     "productivity",
     "dotnet",
+    ".NET",
+    ".NET Core",
+    "C#",
+    "CSharp",
     "file",
     "new file",
     "new cs file",
@@ -36,6 +40,22 @@
       {
         "command": "krbbonvscodeextension.newCsFile",
         "title": "New CS file"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "krbbonvscodeextension.newCsFile",
+          "when": "explorerResourceIsFolder",
+          "group": "navigation"
+        }
+      ]
+    },
+    "file/newFile": [
+      {
+        "command": "krbbonvscodeextension.newCsFile",
+        "when": "resourceScheme == file && resourceExtname == .cs",
+        "group": "navigation"
       }
     ]
   },
