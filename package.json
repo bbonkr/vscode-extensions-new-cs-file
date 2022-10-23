@@ -2,7 +2,7 @@
   "name": "kr-bbon-vscode-plugins-newcsfile",
   "displayName": "New CS file",
   "description": "New cs file for dotnet",
-  "version": "0.1.2",
+  "version": "0.1.3",
   "license": "MIT",
   "publisher": "bbonkr",
   "author": {
@@ -67,7 +67,7 @@
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "test:lib": "mocha -r ts-node/register src/**/*.spec.ts",
-    "deploy": "vsce publish",
+    "deploy": "vsce publish --no-git-tag-version --no-update-package-json --no-yarn",
     "pack": "vsce package"
   },
   "devDependencies": {

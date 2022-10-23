@@ -4,6 +4,10 @@ All notable changes to the "kr-bbon-vscode-plugins-newcsfile" extension will be 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.1.3]
+
+- Deploy with GitHub actions
+
 ## [0.1.0]
 
 - Test for deploying.

@@ -1,7 +1,5 @@
 # New CS File
 
-![Vs marketplace version and link](#) ![lincense](#)
-
 Create new cs file.
 
 ## Features
