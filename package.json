@@ -13,6 +13,10 @@
     "type": "git",
     "url": "https://github.com/bbonkr/vscode-extensions-new-cs-file.git"
   },
+  "bugs": {
+    "url": "https://github.com/bbonkr/vscode-extensions-new-cs-file/issues"
+  },
+  "homepage": "https://github.com/bbonkr/vscode-extensions-new-cs-file/blob/main/README.md",
   "engines": {
     "vscode": "^1.72.0"
   },
@@ -50,14 +54,7 @@
           "group": "navigation"
         }
       ]
-    },
-    "file/newFile": [
-      {
-        "command": "krbbonvscodeextension.newCsFile",
-        "when": "resourceScheme == file && resourceExtname == .cs",
-        "group": "navigation"
-      }
-    ]
+    }
   },
   "scripts": {
     "vscode:prepublish": "npm run package",
@@ -70,7 +67,8 @@
     "lint": "eslint src --ext ts",
     "test": "node ./out/test/runTest.js",
     "test:lib": "mocha -r ts-node/register src/**/*.spec.ts",
-    "deploy": "vsce publish"
+    "deploy": "vsce publish",
+    "pack": "vsce package"
   },
   "devDependencies": {
     "@types/glob": "^8.0.0",

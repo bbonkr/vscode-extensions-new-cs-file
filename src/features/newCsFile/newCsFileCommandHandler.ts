@@ -6,8 +6,6 @@ import createCsFile from '../../lib/createCsFile';
 import csharpKeywords from './csharpKeywords';
 
 const newCsFileCommandHandler = async (uri: vscode.Uri | undefined = undefined) => {
-  vscode.window.showInformationMessage(`Uri: ${uri?.path}`);
-
   if (
     !vscode.workspace.workspaceFolders ||
     0 === (vscode.workspace.workspaceFolders?.length ?? 0)

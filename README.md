@@ -12,7 +12,7 @@ Create cs file with namespace defined into selected directory.
 
 > Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
 
-## Requirements
+## Limitations
 
 Directory and file name in your workspace should not contain non-alphanumeric characters.
 
