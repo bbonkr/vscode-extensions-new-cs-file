@@ -1,11 +1,11 @@
-import * as vscode from "vscode";
-import * as path from "path";
-import findProjectFile from "../../lib/findProjectFile";
-import generateNamespace from "../../lib/generateNamespace";
-import createCsFile from "../../lib/createCsFile";
-import csharpKeywords from "./csharpKeywords";
+import * as vscode from 'vscode';
+import * as path from 'path';
+import findProjectFile from '../../lib/findProjectFile';
+import generateNamespace from '../../lib/generateNamespace';
+import createCsFile from '../../lib/createCsFile';
+import csharpKeywords from './csharpKeywords';
 
-const newCsFileCommandHandler = async (name: string = "HelloWorld") => {
+const newCsFileCommandHandler = async (uri: vscode.Uri | undefined = undefined) => {
   if (
     !vscode.workspace.workspaceFolders ||
     0 === (vscode.workspace.workspaceFolders?.length ?? 0)
@@ -15,9 +15,9 @@ const newCsFileCommandHandler = async (name: string = "HelloWorld") => {
   }
 
   const currentWorkspaceFolder = vscode.workspace.workspaceFolders[0];
-  let currentWorkspaceFolderUri = currentWorkspaceFolder.uri;
+  let currentWorkspaceFolderUri = uri || currentWorkspaceFolder.uri;
 
-  if (vscode.window.activeTextEditor) {
+  if (!currentWorkspaceFolderUri && vscode.window.activeTextEditor) {
     currentWorkspaceFolderUri = vscode.window.activeTextEditor.document.uri;
   }
 
@@ -26,7 +26,7 @@ const newCsFileCommandHandler = async (name: string = "HelloWorld") => {
     canSelectFolders: true,
     canSelectMany: false,
     defaultUri: currentWorkspaceFolderUri,
-    title: "Select directory",
+    title: 'Select directory',
   });
 
   if (!selectedItems) {
@@ -43,49 +43,41 @@ const newCsFileCommandHandler = async (name: string = "HelloWorld") => {
 
   // vscode.window.showInformationMessage(`${selectedDirectory.path}`);
 
-  const projFile = findProjectFile(
-    selectedDirectory.path,
-    currentWorkspaceFolder.uri.path
-  );
+  const projFile = findProjectFile(selectedDirectory.path, currentWorkspaceFolder.uri.path);
 
   const namespace = generateNamespace(projFile, selectedDirectory.path);
 
   // vscode.window.showInformationMessage(`namespace: ${namespace}`);
 
   const nameInputBox = vscode.window.createInputBox();
-  nameInputBox.title = "Class name";
-  nameInputBox.placeholder = "Class name";
+  nameInputBox.title = 'Class name';
+  nameInputBox.placeholder = 'Class name';
   nameInputBox.onDidChangeValue((value: string) => {
-    let validationMessage:
-      | string
-      | vscode.InputBoxValidationMessage
-      | undefined;
+    let validationMessage: string | vscode.InputBoxValidationMessage | undefined;
 
     const classNameRegexp = /^[A-Za-z][A-Za-z0-9_]*$/g;
 
-    if (!value?.trim() ?? "") {
+    if (!value?.trim() ?? '') {
       validationMessage = {
-        message: "Class name is required",
+        message: 'Class name is required',
         severity: vscode.InputBoxValidationSeverity.Error,
       };
     } else if (csharpKeywords.includes(value)) {
       validationMessage = {
         message:
-          "Class file names must not be reserved words. [C# keywords](https://en.wikibooks.org/wiki/C_Sharp_Programming/Keywords)",
+          'Class file names must not be reserved words. [C# keywords](https://en.wikibooks.org/wiki/C_Sharp_Programming/Keywords)',
         severity: vscode.InputBoxValidationSeverity.Error,
       };
     } else if (/^[a-z]*$/g.test(value)) {
       validationMessage = {
-        message:
-          "Class file name might be better start with Capital character.",
+        message: 'Class file name might be better start with Capital character.',
         severity: vscode.InputBoxValidationSeverity.Info,
       };
     } else if (classNameRegexp.test(value)) {
       validationMessage = undefined;
     } else {
       validationMessage = {
-        message:
-          "Class file name should be matched with /^[A-Za-z][A-Za-z0-9_]*$/g",
+        message: 'Class file name should be matched with /^[A-Za-z][A-Za-z0-9_]*$/g',
         severity: vscode.InputBoxValidationSeverity.Error,
       };
     }
@@ -93,7 +85,7 @@ const newCsFileCommandHandler = async (name: string = "HelloWorld") => {
     nameInputBox.validationMessage = validationMessage;
   });
   nameInputBox.onDidAccept(() => {
-    let validationMessage = "";
+    let validationMessage = '';
 
     if (nameInputBox.validationMessage) {
       const inputBoxValidationMessage =
@@ -101,13 +93,12 @@ const newCsFileCommandHandler = async (name: string = "HelloWorld") => {
 
       if (
         inputBoxValidationMessage &&
-        inputBoxValidationMessage.severity ===
-          vscode.InputBoxValidationSeverity.Error
+        inputBoxValidationMessage.severity === vscode.InputBoxValidationSeverity.Error
       ) {
         validationMessage = inputBoxValidationMessage.message;
       }
 
-      if (typeof nameInputBox.validationMessage === "string") {
+      if (typeof nameInputBox.validationMessage === 'string') {
         validationMessage = nameInputBox.validationMessage;
       }
     }
@@ -118,33 +109,29 @@ const newCsFileCommandHandler = async (name: string = "HelloWorld") => {
       const className = nameInputBox.value;
 
       if (!className) {
-        vscode.window.showErrorMessage("Class name is required");
+        vscode.window.showErrorMessage('Class name is required');
         return;
       }
 
-      const filePath = vscode.Uri.parse(
-        path.join(selectedDirectory.path, `${className}.cs`)
-      );
+      const filePath = vscode.Uri.parse(path.join(selectedDirectory.path, `${className}.cs`));
 
       createCsFile(filePath.path, namespace, className);
 
-      vscode.workspace
-        .openTextDocument(vscode.Uri.file(filePath.fsPath))
-        .then((document) => {
-          vscode.window.showTextDocument(document);
+      vscode.workspace.openTextDocument(vscode.Uri.file(filePath.fsPath)).then(document => {
+        vscode.window.showTextDocument(document);
 
-          const edit = new vscode.WorkspaceEdit();
+        const edit = new vscode.WorkspaceEdit();
 
-          return vscode.workspace.applyEdit(edit).then((success) => {
-            if (success) {
-              vscode.window.showInformationMessage(
-                `new cs file [${className}] created at ${filePath.path}`
-              );
-            } else {
-              vscode.window.showErrorMessage(`Fail to create new cs file`);
-            }
-          });
+        return vscode.workspace.applyEdit(edit).then(success => {
+          if (success) {
+            vscode.window.showInformationMessage(
+              `new cs file [${className}] created at ${filePath.path}`,
+            );
+          } else {
+            vscode.window.showErrorMessage(`Fail to create new cs file`);
+          }
         });
+      });
 
       nameInputBox.hide();
       nameInputBox.dispose();
