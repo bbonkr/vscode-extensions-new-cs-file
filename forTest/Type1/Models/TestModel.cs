@@ -1,7 +1,7 @@
-namespace Sample.Models
+namespace Sample.Models 
 {
-    public class TestModel
-    {
-
-    }
+	public class TestModel
+	{
+		
+	}
 }
