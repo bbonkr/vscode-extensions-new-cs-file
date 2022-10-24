@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as path from 'path';
+import * as fs from 'fs';
 import findProjectFile from '../../lib/findProjectFile';
 import generateNamespace from '../../lib/generateNamespace';
 import createCsFile from '../../lib/createCsFile';
@@ -82,6 +83,18 @@ const newCsFileCommandHandler = async (uri: vscode.Uri | undefined = undefined) 
       };
     }
 
+    if (!validationMessage) {
+      const filePath = vscode.Uri.parse(path.join(selectedDirectory.path, `${value}.cs`));
+
+      const exists = fs.existsSync(filePath.path);
+      if (exists) {
+        validationMessage = {
+          message: 'File name is already exists.',
+          severity: vscode.InputBoxValidationSeverity.Error,
+        };
+      }
+    }
+
     nameInputBox.validationMessage = validationMessage;
   });
   nameInputBox.onDidAccept(() => {
@@ -115,6 +128,11 @@ const newCsFileCommandHandler = async (uri: vscode.Uri | undefined = undefined) 
 
       const filePath = vscode.Uri.parse(path.join(selectedDirectory.path, `${className}.cs`));
 
+      const exists = fs.existsSync(filePath.path);
+      if (exists) {
+        vscode.window.showErrorMessage('File name is already exists');
+        return;
+      }
       createCsFile(filePath.path, namespace, className);
 
       vscode.workspace.openTextDocument(vscode.Uri.file(filePath.fsPath)).then(document => {

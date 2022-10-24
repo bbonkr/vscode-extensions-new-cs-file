@@ -33,6 +33,10 @@ Directory and file name in your workspace should be alphanumeric characters.
 
 ## Release Notes
 
+### 0.1.5
+
+- Prevent overwrite a file #24
+
 ### 0.1.4
 
 - Update README.md; Add example animation file. 🫣
