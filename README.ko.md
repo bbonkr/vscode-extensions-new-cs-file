@@ -8,11 +8,11 @@
 
 [![Build and tag](https://github.com/bbonkr/vscode-extensions-new-cs-file/actions/workflows/build-and-tag.yml/badge.svg)](https://github.com/bbonkr/vscode-extensions-new-cs-file/actions/workflows/build-and-tag.yml) [![create release](https://github.com/bbonkr/vscode-extensions-new-cs-file/actions/workflows/create-release.yml/badge.svg)](https://github.com/bbonkr/vscode-extensions-new-cs-file/actions/workflows/create-release.yml) [![Publish vscode extension](https://github.com/bbonkr/vscode-extensions-new-cs-file/actions/workflows/publish-vscode-extension.yml/badge.svg)](https://github.com/bbonkr/vscode-extensions-new-cs-file/actions/workflows/publish-vscode-extension.yml)
 
-## Features
+## 기능
 
-Create new cs file with namespace.
+네임스페이스가 포함된 새 .cs 파일을 작성합니다.
 
-- Namespace generates from csproj file name or references DefaultNamespace element in csproj file.
+- 네임스페이스는 프로젝트 파일의 이름 또는 프로젝트 파일의 기본 네임스페이스 `DefaultNamespace` 요소를 참조합니다.
 
 <!--
 
@@ -21,25 +21,25 @@ Create new cs file with namespace.
 
 ![example](./assets/example.gif)
 
-### Namespace generates
+### 네임스페이스
 
-Namespace composites project file (.csproj) name and directory structure where file created.
+네임스페이스는 프로젝트 파일의 이름과 파일을 작성하는 디렉터리 구조를 기반으로 합성합니다.
 
-The base of namespace is decided with project file name or DefaultNamespace in project file.
+네임스페이스의 베이스는 프로젝트 파일 이름 또는 프로젝트 파일의 기본 네임스페이스 `DefaultNamespace` 요소의 내용을 사용합니다.
 
-## Limitations
+## 제한사항
 
-Directory and file name in your workspace should be alphanumeric characters.
+프로젝트의 디렉터리와 파일이름은 알파벳 문자와 숫자만 사용될 수 있습니다.
 
 ## Release Notes
 
 ### 0.1.4
 
-- Update README.md; Add example animation file. 🫣
+- README.md 업데이트; 예제 애니메이션 파일을 추가했어요. 🫣
 
 ### 0.1.3
 
-- Extension verify to work .
-- CI/CD workflows verify.
+- 확장의 동작을 확인합니다.
+- CI/CD 워크플로우를 확인합니다.
 
 ---
