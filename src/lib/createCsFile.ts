@@ -4,6 +4,12 @@ function createCsFile(filePath: string, namespace: string, className: string): b
   try {
     const normalizedFilePath = filePath.normalize();
 
+    const exists = fs.existsSync(filePath);
+
+    if (exists) {
+      return false;
+    }
+
     fs.writeFileSync(
       normalizedFilePath,
       `namespace ${namespace.normalize()} 
