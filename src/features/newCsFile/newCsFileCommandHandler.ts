@@ -42,11 +42,11 @@ const newCsFileCommandHandler = async (uri: vscode.Uri | undefined = undefined) 
     return;
   }
 
-  // vscode.window.showInformationMessage(`${selectedDirectory.path}`);
+  // vscode.window.showInformationMessage(`${selectedDirectory.fsPath}`);
 
-  const projFile = findProjectFile(selectedDirectory.path, currentWorkspaceFolder.uri.path);
+  const projFile = findProjectFile(selectedDirectory.fsPath, currentWorkspaceFolder.uri.fsPath);
 
-  const namespace = generateNamespace(projFile, selectedDirectory.path);
+  const namespace = generateNamespace(projFile, selectedDirectory.fsPath);
 
   // vscode.window.showInformationMessage(`namespace: ${namespace}`);
 
@@ -84,9 +84,9 @@ const newCsFileCommandHandler = async (uri: vscode.Uri | undefined = undefined) 
     }
 
     if (!validationMessage) {
-      const filePath = vscode.Uri.parse(path.join(selectedDirectory.path, `${value}.cs`));
+      const filePath = vscode.Uri.parse(path.join(selectedDirectory.fsPath, `${value}.cs`));
 
-      const exists = fs.existsSync(filePath.path);
+      const exists = fs.existsSync(filePath.fsPath);
       if (exists) {
         validationMessage = {
           message: 'File name is already exists.',
@@ -126,35 +126,32 @@ const newCsFileCommandHandler = async (uri: vscode.Uri | undefined = undefined) 
         return;
       }
 
-      const filePath = vscode.Uri.parse(path.join(selectedDirectory.path, `${className}.cs`));
+      var fileFsPath = path.join(selectedDirectory.fsPath, `${className}.cs`);
+      const filePath = vscode.Uri.parse(fileFsPath);
 
-      const exists = fs.existsSync(filePath.path);
+      const exists = fs.existsSync(fileFsPath);
       if (exists) {
         vscode.window.showErrorMessage('File name is already exists');
         return;
       }
-      createCsFile(filePath.path, namespace, className);
+      createCsFile(fileFsPath, namespace, className);
 
-      vscode.workspace.openTextDocument(vscode.Uri.file(filePath.fsPath)).then(document => {
-        vscode.window.showTextDocument(document);
+      vscode.workspace
+        .openTextDocument(fileFsPath)
+        .then(document => {
+          return vscode.window.showTextDocument(document);
+        })
+        .then(_ => {
+          vscode.window.showInformationMessage(
+            `new cs file [${className}] created at ${filePath.path}`,
+          );
 
-        const edit = new vscode.WorkspaceEdit();
-
-        return vscode.workspace.applyEdit(edit).then(success => {
-          if (success) {
-            vscode.window.showInformationMessage(
-              `new cs file [${className}] created at ${filePath.path}`,
-            );
-          } else {
-            vscode.window.showErrorMessage(`Fail to create new cs file`);
-          }
+          nameInputBox.hide();
+          nameInputBox.dispose();
         });
-      });
-
-      nameInputBox.hide();
-      nameInputBox.dispose();
     }
   });
+
   nameInputBox.show();
 };
 

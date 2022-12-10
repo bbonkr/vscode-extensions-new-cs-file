@@ -1,6 +1,11 @@
 import * as fs from 'fs';
 
-function createCsFile(filePath: string, namespace: string, className: string): boolean {
+function createCsFile(
+  filePath: string,
+  namespace: string,
+  className: string,
+  useFileScopedNamespace = false,
+): boolean {
   try {
     const normalizedFilePath = filePath.normalize();
 
@@ -10,18 +15,28 @@ function createCsFile(filePath: string, namespace: string, className: string): b
       return false;
     }
 
-    fs.writeFileSync(
-      normalizedFilePath,
-      `namespace ${namespace.normalize()} 
+    let document = '';
+
+    if (useFileScopedNamespace) {
+      document = `namespace ${namespace.normalize()}; 
+
+public class ${className.normalize()}
 {
-	public class ${className.normalize()}
+		
+}
+`;
+    } else {
+      document = `namespace ${namespace.normalize()} 
+{
+  public class ${className.normalize()}
 	{
 		
 	}
 }
-`,
-      { encoding: 'utf-8' },
-    );
+`;
+    }
+
+    fs.writeFileSync(normalizedFilePath, document, { encoding: 'utf-8' });
 
     return true;
   } catch (error) {
