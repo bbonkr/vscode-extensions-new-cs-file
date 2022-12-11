@@ -33,6 +33,10 @@ Directory and file name in your workspace should be alphanumeric characters.
 
 ## Release Notes
 
+### 0.2.1
+
+- Fix problem that is not working in windows #56
+
 ### 0.1.5
 
 - Prevent overwrite a file #24

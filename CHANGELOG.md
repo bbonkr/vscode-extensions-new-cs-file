@@ -4,6 +4,10 @@ All notable changes to the "kr-bbon-vscode-plugins-newcsfile" extension will be 
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
+## [0.2.1]
+
+- Fix problem that is not working in windows #56
+
 ## [0.1.5]
 
 - Prevent overwrite a file #24
