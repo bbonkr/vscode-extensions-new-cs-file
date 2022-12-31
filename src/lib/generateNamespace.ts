@@ -35,7 +35,7 @@ const generateNamespace = (projFilePath: string, currentPath: string): string =>
 
   let currentRelativeUri = path.relative(baseUri, currentPath);
 
-  const replaceRegExp = new RegExp(/[\\\/]/, '');
+  const replaceRegExp = new RegExp(`${path.sep}`, 'g');
   let namespace = currentRelativeUri.replace(replaceRegExp, '.');
 
   if (namespace) {
