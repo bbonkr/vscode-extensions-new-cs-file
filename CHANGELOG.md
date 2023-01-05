@@ -2,7 +2,9 @@
 
 All notable changes to the "kr-bbon-vscode-plugins-newcsfile" extension will be documented in this file.
 
-Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
+## [0.2.2]
+
+- Fix issue that is not working on MacOS #64
 
 ## [0.2.1]
 
