@@ -33,21 +33,4 @@ Directory and file name in your workspace should be alphanumeric characters.
 
 ## Release Notes
 
-### 0.2.1
-
-- Fix problem that is not working in windows #56
-
-### 0.1.5
-
-- Prevent overwrite a file #24
-
-### 0.1.4
-
-- Update README.md; Add example animation file. 🫣
-
-### 0.1.3
-
-- Extension verify to work .
-- CI/CD workflows verify.
-
----
+Please see [CHANGELOG.md](./CHANGELOG.md).
