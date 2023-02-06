@@ -38,7 +38,7 @@ jobs:
           NODE_ENV: production
 
       - name: get version 
-        uses: bbonkr/get-version-action@v1.0.5
+        uses: bbonkr/get-version-action@v1.0.6
         id: get_version
         with:
          project: package.json
