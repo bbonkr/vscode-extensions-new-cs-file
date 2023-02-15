@@ -2,6 +2,10 @@
 
 All notable changes to the "kr-bbon-vscode-plugins-newcsfile" extension will be documented in this file.
 
+## [0.3.0]
+
+- Add setting `newCsFile.useFileScopedNamespace`
+
 ## [0.2.2]
 
 - Fix issue that is not working on MacOS #64
