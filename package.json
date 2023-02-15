@@ -2,7 +2,7 @@
   "name": "kr-bbon-vscode-plugins-newcsfile",
   "displayName": "New CS file",
   "description": "New cs file for dotnet",
-  "version": "0.2.3",
+  "version": "0.3.0",
   "license": "MIT",
   "publisher": "bbonkr",
   "author": {
@@ -18,7 +18,7 @@
   },
   "homepage": "https://github.com/bbonkr/vscode-extensions-new-cs-file/blob/main/README.md",
   "engines": {
-    "vscode": "^1.72.0"
+    "vscode": ">=1.72.0"
   },
   "categories": [
     "Other"
@@ -54,6 +54,16 @@
           "group": "navigation"
         }
       ]
+    },
+    "configuration": {
+      "title": "New CS File",
+      "properties": {
+        "newCsFile.useFileScopedNamespace": {
+          "type": "boolean",
+          "default": false,
+          "description": "Use file scoped namespace when file created"
+        }
+      }
     }
   },
   "scripts": {
