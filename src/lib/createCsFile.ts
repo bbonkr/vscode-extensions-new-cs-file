@@ -29,9 +29,9 @@ public class ${className.normalize()}
       document = `namespace ${namespace.normalize()} 
 {
   public class ${className.normalize()}
-	{
+  {
 		
-	}
+  }
 }
 `;
     }

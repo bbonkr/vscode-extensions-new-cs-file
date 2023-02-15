@@ -22,7 +22,7 @@ const newCsFileCommandHandler = async (uri: vscode.Uri | undefined = undefined) 
     currentWorkspaceFolderUri = vscode.window.activeTextEditor.document.uri;
   }
 
-  var selectedItems = await vscode.window.showOpenDialog({
+  const selectedItems = await vscode.window.showOpenDialog({
     canSelectFiles: false,
     canSelectFolders: true,
     canSelectMany: false,
@@ -126,7 +126,7 @@ const newCsFileCommandHandler = async (uri: vscode.Uri | undefined = undefined) 
         return;
       }
 
-      var fileFsPath = path.join(selectedDirectory.fsPath, `${className}.cs`);
+      const fileFsPath = path.join(selectedDirectory.fsPath, `${className}.cs`);
       const filePath = vscode.Uri.parse(fileFsPath);
 
       const exists = fs.existsSync(fileFsPath);
@@ -134,7 +134,11 @@ const newCsFileCommandHandler = async (uri: vscode.Uri | undefined = undefined) 
         vscode.window.showErrorMessage('File name is already exists');
         return;
       }
-      createCsFile(fileFsPath, namespace, className);
+
+      const useFileScopedNamespace: boolean =
+        vscode.workspace.getConfiguration().get('newCsFile.useFileScopedNamespace') ?? false;
+
+      createCsFile(fileFsPath, namespace, className, useFileScopedNamespace);
 
       vscode.workspace
         .openTextDocument(fileFsPath)
