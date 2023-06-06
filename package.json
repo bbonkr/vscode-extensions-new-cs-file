@@ -99,7 +99,7 @@
     "webpack-cli": "^5.0.1"
   },
   "dependencies": {
-    "@xmldom/xmldom": "^0.8.6",
+    "@xmldom/xmldom": "^0.8.8",
     "xpath": "^0.0.32"
   }
 }
